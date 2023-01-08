@@ -31,7 +31,7 @@ function Sidebar() {
       <SidebarOption Icon={LabelImportantIcon} title="Important" number={54} />
       <SidebarOption Icon={SendIcon} title="Sent" number={54} />
       <SidebarOption Icon={InsertDriveFileIcon} title="Drafts" number={54} />
-      <SidebarOption Icon={ExpandMoreIcon} title="More" number={54} />
+      <SidebarOption Icon={ExpandMoreIcon} title="More" />
     </div>
   );
 }
