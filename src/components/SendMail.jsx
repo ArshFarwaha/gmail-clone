@@ -3,9 +3,13 @@ import "./SendMail.css";
 import { Button } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
+import { ErrorMessage } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { closeSendMessage } from "../features/mailSlice";
 
 function SendMail() {
   const { register, handleSubmit, watch, formState: errors } = useForm();
+  const dispatch = useDispatch();
 
   const onSubmit = (formData) => {
     console.log(formData);
@@ -15,33 +19,39 @@ function SendMail() {
     <div className="sendMail">
       <div className="sendMail__header">
         <h3>New Message</h3>
-        <Close className="sendMail__close" />
+        <Close
+          onClick={() => dispatch(closeSendMessage())}
+          className="sendMail__close"
+        />
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
           placeholder="To"
-          {...register("to", { required: true })}
+          name="to"
+          {...register("to", { required: "To field is required" })}
         />
-        {errors.to && <p className="sendMail__error">To field is required!</p>}
+        <ErrorMessage errors={errors} name="to" />
+
         <input
           type="text"
           placeholder="Subject"
           {...register("subject", { required: true })}
         />
+        {/* {errors.subject && (
+          <p className="sendMail__error">Subject field is required!</p>
+        )} */}
         <input
           type="text"
           className="sendMail__message"
           placeholder="Message"
           {...register("message", { required: true })}
         />
+        {/* {errors.message && (
+          <p className="sendMail__error">Messsage field is required!</p>
+        )} */}
         <div className="sendMail__options">
-          <Button
-            className="sendMail__send"
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
+          <Button className="sendMail__send" variant="contained" type="submit">
             Send
           </Button>
         </div>
