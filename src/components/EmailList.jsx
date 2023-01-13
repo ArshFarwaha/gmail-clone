@@ -12,8 +12,19 @@ import VerticalSplitIcon from "@mui/icons-material/VerticalSplit";
 import KeyboardIcon from "@mui/icons-material/Keyboard";
 import InboxIcon from "@mui/icons-material/Inbox";
 import { People, LocalOffer } from "@mui/icons-material";
+import { db } from "./firebase";
+import { collection, onSnapshot } from "firebase/firestore";
 
 function EmailList() {
+  const emailRef = collection(db, "emails");
+
+  onSnapshot(emailRef, (snapshot) => {
+    let emails = [];
+    snapshot.docs.forEach((doc) => {
+      emails.push({ ...doc.data(), id: doc.id });
+    });
+  });
+
   return (
     <div className="emailList">
       <div className="emailList__settings">

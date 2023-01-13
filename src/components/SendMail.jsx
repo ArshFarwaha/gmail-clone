@@ -17,18 +17,17 @@ function SendMail() {
   } = useForm();
   const dispatch = useDispatch();
 
-  const onSubmit = (formData) => {
-    console.log(formData);
+  async function onSubmit(formData) {
     const email = {
       to: formData.to,
       subject: formData.subject,
       message: formData.message,
       timestamp: serverTimestamp(),
     };
-    addDoc(collection(db, "emails"), email);
-
+    await addDoc(collection(db, "emails"), email);
+    console.log(formData)
     dispatch(closeSendMessage());
-  };
+  }
 
   return (
     <div className="sendMail">
