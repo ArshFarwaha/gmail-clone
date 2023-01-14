@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./EmailList.css";
 import Section from "./Section";
 import EmailRow from "./EmailRow";
@@ -13,17 +13,26 @@ import KeyboardIcon from "@mui/icons-material/Keyboard";
 import InboxIcon from "@mui/icons-material/Inbox";
 import { People, LocalOffer } from "@mui/icons-material";
 import { db } from "./firebase";
-import { collection, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  query,
+  orderBy,
+  Timestamp,
+} from "firebase/firestore";
 
 function EmailList() {
-  const emailRef = collection(db, "emails");
+  const [emails, setEmails] = useState([]);
 
-  onSnapshot(emailRef, (snapshot) => {
-    let emails = [];
-    snapshot.docs.forEach((doc) => {
-      emails.push({ ...doc.data(), id: doc.id });
-    });
-  });
+  useEffect(() => {
+    onSnapshot(
+      query(collection(db, "emails"), orderBy("timestamp", "desc")),
+      (snapshot) =>
+        setEmails(
+          snapshot.docs.map((elem) => ({ ...elem.data(), id: elem.id }))
+        )
+    );
+  }, []);
 
   return (
     <div className="emailList">
@@ -67,6 +76,16 @@ function EmailList() {
         <Section Icon={LocalOffer} title="Promotions" color="green" />
       </div>
       <div className="emailList_list">
+        {emails.map((email) => (
+          <EmailRow
+            id={email.id}
+            key={email.id}
+            title={email.to}
+            subject={email.subject}
+            description={email.message}
+            time={new Date(email.timestamp?.seconds * 1000).toESTString()}
+          />
+        ))}
         <EmailRow
           title="Twitch"
           subject="Hey fellow streamer"
