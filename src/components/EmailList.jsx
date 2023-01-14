@@ -18,7 +18,7 @@ import {
   onSnapshot,
   query,
   orderBy,
-  Timestamp,
+  serverTimestamp,
 } from "firebase/firestore";
 
 function EmailList() {
@@ -76,6 +76,17 @@ function EmailList() {
         <Section Icon={LocalOffer} title="Promotions" color="green" />
       </div>
       <div className="emailList_list">
+        {/* {emails.map(({ id, data: { to, subject, message, timestamp } }) => (
+          <EmailRow
+            id={id}
+            key={id}
+            title={to}
+            subject={subject}
+            description={message}
+            time={timestamp.toLocaleString()}
+          />
+        ))} */}
+
         {emails.map((email) => (
           <EmailRow
             id={email.id}
@@ -83,21 +94,13 @@ function EmailList() {
             title={email.to}
             subject={email.subject}
             description={email.message}
-            time={new Date(email.timestamp?.seconds * 1000).toESTString()}
+            time={
+              email.timestamp
+                ? new Date(email.timestamp.seconds * 1000).toLocaleString()
+                : null
+            }
           />
         ))}
-        <EmailRow
-          title="Twitch"
-          subject="Hey fellow streamer"
-          description="This is a CRAZYYY!!!"
-          time="10pm"
-        />
-        <EmailRow
-          title="Twitch"
-          subject="Hey fellow streamer"
-          description="This is a test"
-          time="10pm"
-        />
       </div>
     </div>
   );
