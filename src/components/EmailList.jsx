@@ -13,13 +13,7 @@ import KeyboardIcon from "@mui/icons-material/Keyboard";
 import InboxIcon from "@mui/icons-material/Inbox";
 import { People, LocalOffer } from "@mui/icons-material";
 import { db } from "./firebase";
-import {
-  collection,
-  onSnapshot,
-  query,
-  orderBy,
-  serverTimestamp,
-} from "firebase/firestore";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 
 function EmailList() {
   const [emails, setEmails] = useState([]);
@@ -76,17 +70,6 @@ function EmailList() {
         <Section Icon={LocalOffer} title="Promotions" color="green" />
       </div>
       <div className="emailList_list">
-        {/* {emails.map(({ id, data: { to, subject, message, timestamp } }) => (
-          <EmailRow
-            id={id}
-            key={id}
-            title={to}
-            subject={subject}
-            description={message}
-            time={timestamp.toLocaleString()}
-          />
-        ))} */}
-
         {emails.map((email) => (
           <EmailRow
             id={email.id}

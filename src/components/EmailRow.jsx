@@ -24,10 +24,6 @@ function EmailRow({ id, title, subject, description, time }) {
     navigate("/mail");
   };
 
-  function navMail() {
-    navigate("/mail");
-  }
-
   return (
     <div onClick={openMail} className="emailRow">
       <div className="emailRow__options">

@@ -12,7 +12,6 @@ function SendMail() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   const dispatch = useDispatch();
@@ -25,7 +24,7 @@ function SendMail() {
       timestamp: serverTimestamp(),
     };
     await addDoc(collection(db, "emails"), email);
-    console.log(formData)
+    console.log(formData);
     dispatch(closeSendMessage());
   }
 
